@@ -51,12 +51,27 @@ app.get("/game/:id", (req, res) => {
             res.sendStatus(404);
         }
         
-
-        res.sendStatus(400);
     }
 
 
 })
+
+app.post("/game", (req, res) => {
+    var {name, year, price} = req.body;
+
+    if(!name || !year || !price){
+        res.sendStatus(400);
+    }else {
+        DB.games.push({
+            id: 4,
+            name,
+            year,
+            price
+        })
+    }
+    res.sendStatus(200);
+
+});
 
 app.listen(4000, () => {
     console.log("API rodando!");
