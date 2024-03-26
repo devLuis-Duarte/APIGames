@@ -73,6 +73,22 @@ app.post("/game", (req, res) => {
 
 });
 
+app.delete("/game/:id", (req, res) => {
+    if(isNaN(req.params.id)){
+        res.sendStatus(404);
+    }else {
+        var id = parseInt(req.params.id);
+        var index = DB.games.findIndex(g => g.id == id);
+
+        if(index == -1){//nao achou o índice do elemento, ou seja, o game não existe
+            res.sendStatus(404);
+        }else { //caso o game exista, ele apaga do array e retorna um status code 200: ok
+            DB.games.splice(index, 1);
+            res.sendStatus(200);
+        }
+    }
+})
+
 app.listen(4000, () => {
     console.log("API rodando!");
 });
