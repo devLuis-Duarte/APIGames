@@ -52,8 +52,6 @@ app.get("/game/:id", (req, res) => {
         }
         
     }
-
-
 })
 
 app.post("/game", (req, res) => {
@@ -85,6 +83,35 @@ app.delete("/game/:id", (req, res) => {
         }else { //caso o game exista, ele apaga do array e retorna um status code 200: ok
             DB.games.splice(index, 1);
             res.sendStatus(200);
+        }
+    }
+});
+
+app.put("/game/:id", (req, res) => {
+    var id = req.params.id;
+
+    if(isNaN(id)){
+        res.sendStatus(400);
+    }else {
+        var id = parseInt(req.params.id);
+        var game = DB.games.find(g => g.id == id);
+
+        if(game){
+            var {name, year, price} = req.body;
+
+            if(name){
+                game.name = name;
+            }
+            if(year){
+                game.year = year;
+            }
+            if(price){
+                game.price = price;
+            }
+            res.sendStatus(200);
+
+        }else {
+            res.sendStatus(404);
         }
     }
 })
