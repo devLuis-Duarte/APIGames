@@ -1,11 +1,32 @@
 const express = require("express");
+
 const app = express();
+
 const bodyParser = require("body-parser");
+
+const connection = require("./database/database");
+
+const Game = require("./games/Game");
+
+const GameController = require("./games/GameController");
+
+connection.authenticate().then(() => {
+    console.log("banco conetctado com sucesso");
+}).catch(() => {
+    console.log("Erro ao conectar ao banco");
+});
 
 app.use(bodyParser.urlencoded({extended: false}));
 app.use(bodyParser.json());
 
+app.use("/", GameController);
 
+
+app.get("/", (req, res) => {
+    res.sendStatus(200);
+});
+
+/* Lógica de criação da API de games usando um banco de dados ficticio com array e object 
 var DB = {
     games: [
         {
@@ -28,7 +49,6 @@ var DB = {
         }
     ]
 }
-
 
 app.get("/games", (req, res) => {
     res.statusCode = 200;
@@ -114,7 +134,7 @@ app.put("/game/:id", (req, res) => {
             res.sendStatus(404);
         }
     }
-})
+})*/
 
 app.listen(4000, () => {
     console.log("API rodando!");
