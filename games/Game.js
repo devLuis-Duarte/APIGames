@@ -16,6 +16,6 @@ const Game = connection.define('games', {
     }
 });
 
-Game.sync({force: true});
+Game.sync({force: false});
 
 module.exports = Game;
