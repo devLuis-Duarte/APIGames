@@ -20,8 +20,7 @@ router.post("/game", (req, res) => {
 
 router.get("/games", (req, res) => {
      Game.findAll().then((games) => {
-        res.json(games);
-        res.sendStatus(200);
+        res.status(200).json(games);
 
     });
 });
