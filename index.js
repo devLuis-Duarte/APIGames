@@ -4,6 +4,8 @@ const app = express();
 
 const bodyParser = require("body-parser");
 
+const cors = require("cors");
+
 const connection = require("./database/database");
 
 const Game = require("./games/Game");
@@ -15,6 +17,8 @@ connection.authenticate().then(() => {
 }).catch(() => {
     console.log("Erro ao conectar ao banco");
 });
+
+app.use(cors());
 
 app.use(bodyParser.urlencoded({extended: false}));
 app.use(bodyParser.json());
