@@ -25,4 +25,22 @@ router.get("/games", (req, res) => {
     });
 });
 
+router.get("/game/:id", (req, res) => {
+    var id = req.params.id;
+
+    if(!isNaN(id)){
+        id = parseInt(req.params.id);
+        
+        Game.findOne({
+            where: {
+                id: id
+            }
+        }).then((game) => {
+            res.status(200).json(game);
+        })
+    }else {
+        res.sendStatus(400);
+    }
+});
+
 module.exports = router;
