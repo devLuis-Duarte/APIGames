@@ -30,7 +30,7 @@ router.get("/game/:id", (req, res) => {
 
     if(!isNaN(id)){
         id = parseInt(req.params.id);
-        
+
         Game.findOne({
             where: {
                 id: id
@@ -39,8 +39,26 @@ router.get("/game/:id", (req, res) => {
             res.status(200).json(game);
         })
     }else {
-        res.sendStatus(400);
+        res.sendStatus(404);
     }
 });
+
+router.delete("/game/:id", (req, res) => {
+    var id = req.params.id;
+
+    if(!isNaN(id)){
+        id = parseInt(req.params.id);
+
+        Game.destroy({
+            where: {
+                id: id
+            }
+        }).then(() => {
+            res.sendStatus(200);
+        })
+    }else {
+        res.sendStatus(404);
+    }
+}); 
 
 module.exports = router;
