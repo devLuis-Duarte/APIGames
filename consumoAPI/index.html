@@ -6,8 +6,41 @@
     <hr>
     <h4>Lista de Games</h4>
     <ul id="games"></ul>
+    <hr>
+    <h4>Novo jogo</h4>
+    <input type="text" name="name" id="name" placeholder="Jogo">
+    <br>
+    <input type="number" name="year" id="year" placeholder="Ano">
+    <br>
+    <input type="number" name="price" id="price" placeholder="Preço em R$">
+    <br>
+    <button type="button" onclick="createGame()">Cadastrar</button>
 </head>
 <body>
+
+    <script>
+        function createGame(){
+            var nameInput = document.getElementById("name");
+            var yearInput = document.getElementById("year");
+            var priceInput = document.getElementById("price");
+
+            var game = {
+                name: nameInput.value,
+                year: yearInput.value,
+                price: priceInput.value
+            }
+
+            axios.post("http://localhost:4000/game", game).then(response => {
+
+            }).catch(error => {
+                if(response.status == 200){
+                    alert("Jogo cadastrado");
+                }else {
+                    console.log(error)
+                }
+            });
+        }
+    </script>
     
 </body>
 <script src="https://cdn.jsdelivr.net/npm/axios@1.6.7/dist/axios.min.js"></script>
