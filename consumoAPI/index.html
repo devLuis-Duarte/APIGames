@@ -3,6 +3,9 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Loja de Games</title>
+    <hr>
+    <h4>Lista de Games</h4>
+    <ul id="games"></ul>
 </head>
 <body>
     
@@ -11,7 +14,15 @@
 
 <script>
     axios.get("http://localhost:4000/games").then(response => {
-        console.log(response);
+        var games = response.data;
+        var list = document.getElementById("games");
+
+        games.forEach(game => {
+            var item = document.createElement("li");
+            item.innerHTML = game.name + " - " +game.year + " - R$" +game.price;
+            list.appendChild(item);
+        });
+
     }).catch(error => {
         console.log(error);
     })
