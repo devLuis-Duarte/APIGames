@@ -15,6 +15,18 @@
     <input type="number" name="price" id="price" placeholder="Preço em R$">
     <br>
     <button type="button" onclick="createGame()">Cadastrar</button>
+    <hr>
+    <h4>Editar jogo</h4>
+    <input type="text" name="nameEdit" id="nameEdit" placeholder="Jogo">
+    <br>
+    <input type="number" name="yearEdit" id="yearEdit" placeholder="Ano">
+    <br>
+    <input type="number" name="priceEdit" id="priceEdit" placeholder="Preço em R$">
+    <br>
+    <input type="text" name="idEdit" id="idEdit" readonly>
+    <br>
+    <button type="button" onclick="updateGame()">Atualizar</button>
+
 </head>
 <body>
 
@@ -50,6 +62,41 @@
                 console.log(error);
             })
         }
+
+        function loadForm(listItem){
+            var id = listItem.getAttribute("data-id");
+            var name = listItem.getAttribute("data-name");
+            var year = listItem.getAttribute("data-year");
+            var price = listItem.getAttribute("data-price");
+            var idField = document.getElementById("idEdit").value = id;
+            var nameField = document.getElementById("nameEdit").value = name;
+            var yearField = document.getElementById("yearEdit").value = year;
+            var priceField = document.getElementById("priceEdit").value = price;
+
+        }
+
+        function updateGame(){
+            var idInput = document.getElementById("idEdit")
+            var nameInput = document.getElementById("nameEdit");
+            var yearInput = document.getElementById("yearEdit");
+            var priceInput = document.getElementById("priceEdit");
+
+            var game = {
+                name: nameInput.value,
+                year: yearInput.value,
+                price: priceInput.value
+            }
+
+            id = idInput.value;
+            
+            axios.put("http://localhost:4000/game/"+id, game).then(response => {
+                if(response.status == 200){
+                    alert("Jogo atualizado");
+                }
+            }).catch(error => {
+                console.log(error);
+            });
+        }
     </script>
     
 </body>
@@ -80,8 +127,19 @@
                     deleteGame(item);
                 }
             })
+            //botão de editar o jogo
+            var editBtn = document.createElement("button");
+            editBtn.innerHTML = "Editar";
+            editBtn.addEventListener("click", function(){
+                event.preventDefault();
+                var response = confirm("Você tem certeza que deseja ediatr este jogo?");
+                if(response){
+                    loadForm(item);
+                }
+            })
 
             item.appendChild(deleteBtn);
+            item.appendChild(editBtn);
 
             list.appendChild(item);
         });
