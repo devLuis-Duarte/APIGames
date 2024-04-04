@@ -40,6 +40,16 @@
                 }
             });
         }
+
+        function deleteGame(listItem){
+            var id = listItem.getAttribute("data-id");
+
+            axios.delete("http://localhost:4000/game/"+id).then(response => {
+                alert("Jogo excluído");
+            }).catch(error => {
+                console.log(error);
+            })
+        }
     </script>
     
 </body>
@@ -52,7 +62,27 @@
 
         games.forEach(game => {
             var item = document.createElement("li");
+            
+            item.setAttribute("data-id", game.id);
+            item.setAttribute("data-name", game.name);
+            item.setAttribute("data-year", game.year);
+            item.setAttribute("data-price", game.price);
+
             item.innerHTML = game.name + " - " +game.year + " - R$" +game.price;
+
+            //botão de deletar o jogo
+            var deleteBtn = document.createElement("button");
+            deleteBtn.innerHTML = "Deletar";
+            deleteBtn.addEventListener("click", function(){
+                event.preventDefault();
+                var response = confirm("Você tem certeza que deseja excluir este jogo?");
+                if(response){
+                    deleteGame(item);
+                }
+            })
+
+            item.appendChild(deleteBtn);
+
             list.appendChild(item);
         });
 
